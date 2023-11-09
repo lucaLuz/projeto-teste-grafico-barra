@@ -4,6 +4,10 @@ import data from './barras.json'
 
 const App: React.FC = () => {
 
+  //fazer um componente para cada grafico
+  //usar o usereffect para pegar os dados do json
+  //colocar o valor em cada barra
+  
   const options: ApexOptions = {
       chart: {
         type: 'bar',
@@ -38,7 +42,7 @@ const App: React.FC = () => {
         opacity: 1
       },
     };
-
+//pega a descrição de cada um 
  const series:ApexAxisChartSeries = [{
     name: Object.values(data.DESC).toString(),
     data:Object.values(data['%'])
