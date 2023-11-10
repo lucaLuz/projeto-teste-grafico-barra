@@ -1,7 +1,6 @@
 import { ApexOptions} from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
 import { useEffect, useState } from 'react';
-import json from '../APIs/barras.json'
 
 interface DataType {
   DESC: string[];
@@ -33,10 +32,27 @@ const GraficoBarra: React.FC = () => {
         enabled: false,
       }
     },
-
-    dataLabels: {
-      enabled: true
+    plotOptions: {
+      bar: {
+        borderRadius: 10,
+        dataLabels: {
+          position: 'top',
+        },
+      }
     },
+    
+    dataLabels: {
+      enabled: true,
+      formatter: function (val) {
+        return val + "%";
+      },
+      offsetY: -20,
+      style: {
+        fontSize: '12px',
+        colors: ["#304758"]
+      }
+    },
+    
     stroke: {
       show: true,
       width: 2,
@@ -51,7 +67,7 @@ const GraficoBarra: React.FC = () => {
       },
       labels:{
         formatter: function(val){
-          return val.toFixed(1)
+          return val.toFixed(1) + '%'
         }
       }
     },
@@ -62,7 +78,7 @@ const GraficoBarra: React.FC = () => {
 
   const series: ApexAxisChartSeries = [{
     name: 'Contribuição',
-    data: Object.values(data['%'])
+    data: Object.values(data['%']),
   }];
   
   return (
