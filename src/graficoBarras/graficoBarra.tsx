@@ -47,7 +47,7 @@ const GraficoBarra: React.FC = () => {
     },
     yaxis: {
       title: {
-        text: '$ (thousands)'
+        text: '% Contribuição'
       },
       labels:{
         formatter: function(val){
@@ -61,7 +61,7 @@ const GraficoBarra: React.FC = () => {
   };
 
   const series: ApexAxisChartSeries = [{
-    name: 'valor',
+    name: 'Contribuição',
     data: Object.values(data['%'])
   }];
   
