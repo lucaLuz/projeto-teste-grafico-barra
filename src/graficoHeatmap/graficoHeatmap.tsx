@@ -4,6 +4,7 @@ import data from '../APIs/heatmp.json'
 import { useEffect, useState } from 'react';
 
 
+
 // interface OriginalData {
 //   timestamp: Record<string, string>;
 //   [key: string]: Record<string, number>;
@@ -70,27 +71,47 @@ import { useEffect, useState } from 'react';
  
 // console.log(JSON.stringify(transformedData, null, 2));
 
-function generateData(count: number, yrange: { min: any; max: any; }) {
-  var i = 0;
-  var series = [];
-  while (i < count) {
-    var x = (i + 1).toString();
-    var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-    series.push({ x: x, y: y });
-    i++;
-  }
-  return series;
-}
+// function generateData(count: number, yrange: { min: any; max: any; }) {
+//   var i = 0;
+//   var series = [];
+//   while (i < count) {
+//     var x = (i + 1).toString();
+//     var y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+//     series.push({ x: x, y: y });
+//     i++;
+//   }
+//   return series;
+// }
 
 const GraficoHeatmap = () => {
 
-    const [data, setData] = useState();
-    useEffect (() => {
-        fetch('../src/APIs/heatmp.json')
-        .then((response) => response.json())
-            .then((json) => {setData(json)});
-    });
-    
+  const [data, setData] = useState<{ name: string; data: { x: string; y: number; }[]; }[]>([]);
+
+  useEffect(() => {
+    fetch('../src/APIs/heatmp.json')
+      .then(response => response.json())
+      .then(data => {
+
+        const seriesNomes = Object.keys(data).filter(key => key !== 'timestamp');
+
+        const formattedData = seriesNomes.map(name => {
+          
+          const dataPoints = Object.keys(data[name]).map(key => {
+            return {
+              x: data.timestamp[key],
+              y: data[name][key]
+            };
+          });
+
+          return {
+            name,
+            data: dataPoints
+          };
+        });
+
+        setData(formattedData);
+      });
+  }, []);
     const options: ApexOptions = {
     chart: {
       height: 350,
@@ -144,74 +165,11 @@ const GraficoHeatmap = () => {
     },
   };
 
- const series:ApexAxisChartSeries = [{
-    name: 'Jan',
-    data: generateData(20, {
-      min: -30,
-      max: 55
-    })
-  },
-  {
-    name: 'Feb',
-    data: generateData(20, {
-      min: -30,
-      max: 55
-    })
-  },
-  {
-    name: 'Mar',
-    data: generateData(20, {
-      min: -30,
-      max: 55
-    })
-  },
-  {
-    name: 'Apr',
-    data: generateData(20, {
-      min: -30,
-      max: 55
-    })
-  },
-  {
-    name: 'May',
-    data: generateData(20, {
-      min: -30,
-      max: 55
-    })
-  },
-  {
-    name: 'Jun',
-    data: generateData(20, {
-      min: -30,
-      max: 55
-    })
-  },
-  {
-    name: 'Jul',
-    data: generateData(20, {
-      min: -30,
-      max: 55
-    })
-  },
-  {
-    name: 'Aug',
-    data: generateData(20, {
-      min: -30,
-      max: 55
-    })
-  },
-  {
-    name: 'Sep',
-    data: generateData(20, {
-      min: -30,
-      max: 55
-    })
-  }
-]
+ 
 
   return (
 <>
-      <ReactApexChart options={options} series={series} type="heatmap" height={350} />
+      <ReactApexChart options={options} series={data} type="heatmap" height={350} />
     </>
   );
   }
