@@ -20,7 +20,6 @@ const GraficoBarra: React.FC = () => {
   
   
   if (!data) {
-    console.log(data);
     return <div>Loading...</div>;
   }
 
@@ -44,7 +43,7 @@ const GraficoBarra: React.FC = () => {
     dataLabels: {
       enabled: true,
       formatter: function (val) {
-        return val + "%";
+        return val.toString().substring(0,4) + "%";
       },
       offsetY: -20,
       style: {
@@ -60,6 +59,11 @@ const GraficoBarra: React.FC = () => {
     },
     xaxis: {
       categories:Object.values(data.VARIAVEL),
+      labels:{
+        formatter: function (val) {
+          return val.toString()  ;
+        },
+      }
     },
     yaxis: {
       title: {
@@ -74,12 +78,21 @@ const GraficoBarra: React.FC = () => {
     fill: {
       opacity: 1
     },
+    tooltip: {
+      enabled: true,
+      x: {
+        formatter: function(val, opts) {
+          return val + " : " + data.DESC[opts.dataPointIndex] ;
+        }
+      }
+    },
   };
 
   const series: ApexAxisChartSeries = [{
     name: 'Contribuição',
     data: Object.values(data['%']),
-  }];
+  },
+];
   
   return (
     <>
