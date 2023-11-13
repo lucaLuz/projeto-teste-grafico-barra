@@ -35,7 +35,6 @@ const GraficoHeatmap = () => {
         setData(formattedData);
       });
   }, []);
-  // console.log(data)
   const options: ApexOptions = {
     chart: {
       zoom: {
@@ -49,36 +48,17 @@ const GraficoHeatmap = () => {
     },
     plotOptions: {
       heatmap: {
-        shadeIntensity: 0.5,
+        shadeIntensity: 0.3,
         radius: 0,
+        reverseNegativeShade:true,
         useFillColorAsStroke: true,
-        // colorScale: {
-        //   ranges: [{
-        //     from: -30,
-        //     to: 1,
-        //     name: 'low',
-        //     color: '#00A100'
-        //   },
-        //   {
-        //     from: 3,
-        //     to: 5,
-        //     name: 'medium',
-        //     color: '#128FD9'
-        //   },
-        //   {
-        //     from: 10,
-        //     to: 30,
-        //     name: 'high',
-        //     color: '#FFB200'
-        //   },
-        //   {
-        //     from: 30,
-        //     to: 40,
-        //     name: 'extreme',
-        //     color: '#FF0000'
-        //   }
-        //   ]
-        // }
+        colorScale: {
+          ranges: [{
+            from: 0,
+            to: 0,
+            color: '#0F293A'
+          },
+          ]}
       }
     },
     tooltip: {
@@ -93,9 +73,9 @@ const GraficoHeatmap = () => {
     },
     // theme: {
     //   mode: 'light', 
-    //   // palette: 'palette10', 
+    //   palette: 'palette10', 
     //   monochrome: {
-    //       enabled: true,
+    //       enabled: false,
     //       color: '#0F293A',
     //       shadeTo: 'dark',
     //       shadeIntensity: 0.65
@@ -127,6 +107,9 @@ const GraficoHeatmap = () => {
       padding: {
         right: 20
       }
+    },
+    legend:{
+      show: false
     }
   };
 
